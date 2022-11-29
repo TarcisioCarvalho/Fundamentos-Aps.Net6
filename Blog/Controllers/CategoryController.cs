@@ -14,8 +14,17 @@ namespace Blog.Controllers
             [FromServices] BlogDataContext context
         )
         {
-            var categories = await context.Categories.ToListAsync();
-            return Ok(categories);
+            try
+            {
+                var categories = await context.Categories.ToListAsync();
+                return Ok(new ResultViewModel <List<Category>>(categories));
+            }
+            catch 
+            {
+                
+                return StatusCode(500,new ResultViewModel<List<Category>>("5x00 - Falha Interna no Servidor"));
+            }
+            
         }
 
         [HttpGet("v1/categories/{id:int}")]
@@ -39,6 +48,8 @@ namespace Blog.Controllers
             [FromServices] BlogDataContext context
         )
         {
+            if(!ModelState.IsValid) return BadRequest();
+            
            try
            {
             var categoryPost = new Category()
