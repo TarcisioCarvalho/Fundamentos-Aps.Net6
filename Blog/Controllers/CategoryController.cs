@@ -1,4 +1,5 @@
 using Blog.Data;
+using Blog.Extensions;
 using Blog.Models;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -33,13 +34,23 @@ namespace Blog.Controllers
             [FromServices] BlogDataContext context
         )
         {
-            var category = await context
+            try
+            {
+                 var category = await context
             .Categories
             .FirstOrDefaultAsync(c => c.Id == id);
 
-            if(category == null) return NotFound();
+            if(category == null) return NotFound(new ResultViewModel<Category>("Categoria não encontrada"));
 
-            return Ok(category);
+            return Ok(new ResultViewModel<Category>(category));
+            }
+            catch 
+            {
+                return StatusCode(500, "Falha Interna no Servidor");
+            }
+           
+
+            
         }
 
         [HttpPost("v1/categories")]
@@ -48,7 +59,9 @@ namespace Blog.Controllers
             [FromServices] BlogDataContext context
         )
         {
-            if(!ModelState.IsValid) return BadRequest();
+            if(!ModelState.IsValid) return BadRequest(
+                new ResultViewModel<Category>(ModelState.GetErrors())
+            );
             
            try
            {
@@ -61,16 +74,15 @@ namespace Blog.Controllers
             await context.Categories.AddAsync(categoryPost);
             await context.SaveChangesAsync();
 
-            return Created($"v1/categories/{categoryPost.Id}",categoryPost);
+            return Created($"v1/categories/{categoryPost.Id}",new ResultViewModel<Category>(categoryPost));
            }
-           catch(DbUpdateException ex)
+           catch(DbUpdateException)
            {
-            return StatusCode(500," EX09 Não foi Possível Incluir a Categoria");
+            return StatusCode(500,new ResultViewModel<Category>("EX09 Não foi Possível Incluir a Categoria"));
            }
-           catch (Exception ex)
+           catch (Exception)
            {
-            
-             return StatusCode(500," EX10 Erro Interno De Servidor");
+             return StatusCode(500,new ResultViewModel<Category>("EX10 Erro Interno De Servidor"));
            }
         }
 
@@ -85,7 +97,7 @@ namespace Blog.Controllers
            .Categories
            .FirstOrDefaultAsync(c => c.Id == id);
 
-            if(categoryPut == null) return NotFound();
+            if(categoryPut == null) return NotFound(new ResultViewModel<Category>("Conteúdo não encontrado"));
 
             categoryPut.Name = category.Name;
             categoryPut.Slug = category.Slug;
@@ -93,7 +105,7 @@ namespace Blog.Controllers
             context.Categories.Update(categoryPut);
             await context.SaveChangesAsync();
 
-            return Ok(category);
+            return Ok(new ResultViewModel<Category>(categoryPut));
         }
 
         [HttpDelete("v1/categories/{id:int}")]
@@ -107,12 +119,12 @@ namespace Blog.Controllers
            .Categories
            .FirstOrDefaultAsync(c => c.Id == id);
 
-           if(categoryDelete == null) return NotFound();
+           if(categoryDelete == null) return NotFound(new ResultViewModel<Category>("Conteúdo não encontrado"));
 
             context.Categories.Remove(categoryDelete);
             await context.SaveChangesAsync();
 
-            return Ok(categoryDelete);
+            return Ok(new ResultViewModel<Category>(categoryDelete));
         }
     }
 }
