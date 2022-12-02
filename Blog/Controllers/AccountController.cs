@@ -1,6 +1,12 @@
+using Blog.Data;
+using Blog.Extensions;
+using Blog.Models;
 using Blog.Services;
+using Blog.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SecureIdentity.Password;
 
 namespace Blog.Controllers;
 
@@ -13,20 +19,75 @@ public class AccountController:ControllerBase
     {
         _tokenService = tokenService;
     }
-    [HttpPost("v1/login")]
-    public IActionResult Login()
+
+    [HttpPost("v1/accounts/")]
+    public async Task<IActionResult> Post(
+        [FromBody] RegisterViewModel model,
+        [FromServices] BlogDataContext context
+    )
     {
-        var token = _tokenService.GenerateToken(null);
-        return Ok(token);
+        if(!ModelState.IsValid)
+         return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
+
+         var user = new User
+         {
+           Name = model.Name,
+           Email = model.Email,
+           Slug = model.Email.Replace("@","-").Replace(".","-")
+         };
+        var password = PasswordGenerator.Generate(
+            length:25,includeSpecialChars:true,upperCase:false);
+
+        user.PasswordHash = PasswordHasher.Hash(password);
+
+        try
+        {
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+
+            return Ok(new ResultViewModel<dynamic>(new
+            {
+                user = user.Email,password
+            }
+            ));
+        }catch(DbUpdateException)
+        {
+            return StatusCode(400,new ResultViewModel<string>("05X99 - Este E-mail já existe"));
+        }catch
+        {
+            return StatusCode(500,"05X04 -ch Falha Interna");
+        }
+    }
+    [HttpPost("v1/accounts/login")]
+    public async Task<IActionResult> Login(
+        [FromServices] BlogDataContext context,
+        [FromBody] LoginViewModel model
+    )
+    {
+        if(!ModelState.IsValid) 
+        return BadRequest(new ResultViewModel<string>(ModelState.GetErrors())); 
+        
+        User user = await context
+        .Users
+        .AsNoTracking()
+        .Include(x => x.Roles)
+        .FirstOrDefaultAsync(u => u.Email == model.Email);
+
+        if(user == null) return StatusCode(401,"Usuário inválido");
+        if(!PasswordHasher.Verify(user.PasswordHash,model.Password)) return StatusCode(401,"senha inválida");
+
+
+        try
+        {
+            var token = _tokenService.GenerateToken(user);
+            return Ok(new ResultViewModel<string>(token,null));
+        }
+        catch 
+        {
+            
+            return BadRequest("50x04 -  Erro Interno");
+        }
     }
 
-    [Authorize]
-    [HttpGet("v1/user")]
-    public IActionResult GetUser() => Ok(User.Identity.Name);
-    [Authorize]
-    [HttpGet("v1/author")]
-    public IActionResult GetAuthor() => Ok(User.Identity.Name);
-    [Authorize]
-    [HttpGet("v1/admin")]
-    public IActionResult GetAdmin() => Ok(User.Identity.Name);
+
 }

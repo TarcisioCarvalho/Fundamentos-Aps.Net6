@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "koiq0JjQZCIOAtQty8GAfgVGvDCJB0+m2a758TzQqYAGGLfggVFCHdE3Y/jV0V5B5rP3Fat1m7j2UiH5VAVkHw==",
+  "dgSpecHash": "WbKpt5/JImPeLag/mNwYfviiLxrxwtaKbh7Q9dmj63KfL2z5yW5d9cRKqc8Rj/OfjZrjDrnNh93NIVoO0PqM5A==",
   "success": true,
   "projectFilePath": "C:\\Users\\tarci\\Documents\\Fundamentos-Aps.Net6\\Blog\\Blog.csproj",
   "expectedPackageFiles": [
@@ -60,6 +60,7 @@
     "C:\\Users\\tarci\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\tarci\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\tarci\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\tarci\\.nuget\\packages\\secureidentity\\1.0.4\\secureidentity.1.0.4.nupkg.sha512",
     "C:\\Users\\tarci\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\tarci\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\tarci\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
