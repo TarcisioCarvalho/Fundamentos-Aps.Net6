@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Blog.Attributes;
@@ -5,8 +6,29 @@ namespace Blog.Attributes;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class ApiKeyAttribute : Attribute, IAsyncActionFilter
 {
-    public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context,
+     ActionExecutionDelegate next)
     {
-        throw new NotImplementedException();
+        if(!context.HttpContext.Request.Query.TryGetValue(Configuration.ApiKey,
+        out var extractApiKey))
+        {
+            context.Result = new ContentResult()
+            {
+                StatusCode = 401,
+                Content = "Api Key não Encontrada"
+            };
+            return ;
+        }
+
+        if(!Configuration.ApiKey.Equals(extractApiKey))
+        {
+            context.Result = new ContentResult()
+            {
+                StatusCode = 403,
+                Content = "Acesso não autorizado"
+            };
+            return ;
+        }
+        await next();
     }
 }
