@@ -23,6 +23,7 @@ public class AccountController:ControllerBase
     [HttpPost("v1/accounts/")]
     public async Task<IActionResult> Post(
         [FromBody] RegisterViewModel model,
+        [FromServices] EmailService emailService,
         [FromServices] BlogDataContext context
     )
     {
@@ -42,6 +43,15 @@ public class AccountController:ControllerBase
 
         try
         {
+            
+
+            emailService.Send(
+                user.Name,
+                user.Email,
+                "Seja Bem vindo",
+                $"Sua Senha é {password}"
+            );
+            
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
 
@@ -53,9 +63,9 @@ public class AccountController:ControllerBase
         }catch(DbUpdateException)
         {
             return StatusCode(400,new ResultViewModel<string>("05X99 - Este E-mail já existe"));
-        }catch
+        }catch(Exception e)
         {
-            return StatusCode(500,"05X04 -ch Falha Interna");
+            return StatusCode(500,"05X04 -ch Falha Interna " + e.Message);
         }
     }
     [HttpPost("v1/accounts/login")]
