@@ -15,6 +15,7 @@ ConfigureServices(builder);
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.MapControllers();
 LoadConfiguration(app);
 app.UseAuthentication();
