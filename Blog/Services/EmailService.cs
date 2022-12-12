@@ -11,7 +11,7 @@ public class EmailService
         string subject,
         string body,
         string fromName = "Equipe balta.io",
-        string fromEmail = "email@balta.io"
+        string fromEmail = "tarcisiokta2012@gmail.com"
     )
     {
         var smtpClient = new SmtpClient(Configuration.Smtp.Host,Configuration.Smtp.Port);
@@ -22,8 +22,8 @@ public class EmailService
 
         var mail = new MailMessage();
 
-        mail.From = new MailAddress(fromName,fromEmail);
-        mail.To.Add(new MailAddress(toName,toEmail));
+        mail.From = new MailAddress(fromEmail,fromName);
+        mail.To.Add(new MailAddress(toEmail,toName));
         mail.Subject = subject;
         mail.Body = body;
         mail.IsBodyHtml = true;
