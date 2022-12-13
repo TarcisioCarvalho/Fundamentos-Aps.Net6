@@ -77,3 +77,4 @@ C:\Users\tarci\Documents\Fundamentos-Aps.Net6\Blog\bin\Debug\net6.0\runtimes\win
 C:\Users\tarci\Documents\Fundamentos-Aps.Net6\Blog\obj\Debug\net6.0\Blog.csproj.CopyComplete
 C:\Users\tarci\Documents\Fundamentos-Aps.Net6\Blog\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\tarci\Documents\Fundamentos-Aps.Net6\Blog\bin\Debug\net6.0\SecureIdentity.dll
+C:\Users\tarci\Documents\Fundamentos-Aps.Net6\Blog\bin\Debug\net6.0\Blog.staticwebassets.runtime.json
