@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Fot24hueeQtmHWG0lNHnRBgZk7nB81/lmp0SfjPAXKY=",
+  "Hash": "dSuXTD0ZGTqNusW34obTgM2UhlHbLgRH761DQ9riPQ0=",
   "Source": "Blog",
   "BasePath": "_content/Blog",
   "Mode": "Default",
@@ -15,5 +15,23 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\tarci\\Documents\\Fundamentos-Aps.Net6\\Blog\\wwwroot\\images\\306c4d2d-71c1-487b-af49-223917b1a452.jpg",
+      "SourceId": "Blog",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\tarci\\Documents\\Fundamentos-Aps.Net6\\Blog\\wwwroot\\",
+      "BasePath": "_content/Blog",
+      "RelativePath": "images/306c4d2d-71c1-487b-af49-223917b1a452.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\306c4d2d-71c1-487b-af49-223917b1a452.jpg"
+    }
+  ]
 }
