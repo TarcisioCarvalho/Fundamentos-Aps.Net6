@@ -15,7 +15,7 @@ namespace Blog.Data
         // public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Blog;Trusted_Connection=True;MultipleActiveResultSets=True;");
+            => options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=blog-modulo-6;Trusted_Connection=True;MultipleActiveResultSets=True;");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
